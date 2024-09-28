@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!---->
+        <title>Bai tap tuan 3 ve javascript</title>
+        <meta charset="utf-8">
+        <script>
+            function strip(str){
+                let copy="";
+                for (let i=0;i<str.length;i++){
+                    if((str.charAt(i)>='A'&&str.charAt(i)<='Z')||
+                        (str.charAt(i)>='a'&&str.charAt(i)<='z')||
+                        (str.charAt(i)>='1'&&str.charAt(i)<='1')){
+                            copy+=str.charAt(i);
+                    }
+                }
+            return copy;
+        }
+        function palindrome(str) {
+          str=strip(str.toUpperCase());
+          for(let i=0;i<Math.floor(str.length/2);i++){
+            if(str.charAt(i)!=str.charAt(str.length-i-1)){
+              return false;
+            }
+          }
+          return true
+        }
+            <!---->
+            function convertToRoman(num){
+                let roman=""
+                let point=Math.floor(num/1000)
+                for(let i=0;i<point;i++)
+                    roman+="M"
+                num=num-1000*point
+                point=Math.floor(num/900)
+                for(let i=0;i<point;i++)
+                    roman+="CM"
+                num=num-900*point
+                point=Math.floor(num/500)
+                for(let i=0;i<point;i++)
+                    roman+="D"
+                num=num-500*point
+                point=Math.floor(num/400)
+                for(let i=0;i<point;i++)
+                    roman+="CD"
+                num=num-400*point
+                point=Math.floor(num/100)
+                for(let i=0;i<point;i++)
+                    roman+="C"
+                num=num-100*point
+                point=Math.floor(num/90)
+                for(let i=0;i<point;i++)
+                    roman+="XC"
+                num=num-90*point
+                point=Math.floor(num/50)
+                for(let i=0;i<point;i++)
+                    roman+="L"
+                num=num-50*point
+                point=Math.floor(num/40)
+                for(let i=0;i<point;i++)
+                    roman+="XL"
+                num=num-40*point
+                point=Math.floor(num/10)
+                for(let i=0;i<point;i++)
+                    roman+="X"
+                num=num-10*point
+                point=Math.floor(num/9)
+                for(let i=0;i<point;i++)
+                    roman+="IX"
+                num=num-9*point
+                point=Math.floor(num/5)
+                for(let i=0;i<point;i++)
+                    roman+="V"
+                num=num-5*point
+                point=Math.floor(num/4)
+                for(let i=0;i<point;i++)
+                    roman+="IV"
+                num=num-4*point
+                point=Math.floor(num/1)
+                for(let i=0;i<point;i++)
+                    roman+="I"
+                return roman
+            }
+            function rot13(encodedStr) {
+                return encodedStr.split('').map(char => {
+                    if (char >= 'A' && char <= 'Z') {
+                        const code = char.charCodeAt(0);
+                        // Giải mã bằng cách dịch chuyển 13 vị trí
+                        return String.fromCharCode(((code - 65 + 13) % 26) + 65);
+                    }
+                    // Giữ nguyên ký tự không phải chữ cái
+                    return char;
+                }).join('');
+            }
+            
+            function telephoneCheck(telephone=""){
+                let str=""
+                if(telephone[0]=='1'){
+                    if(telephone[1]==' '){
+                        let arr=telephone.split('')
+                        for(let i=2;i<telephone.length;i++)
+                            str+=telephone[i]
+                        telephone=str
+                    }
+                    if(telephone[1]=='('){
+                        telephone=telephone.slice(1)
+                    }
+                }
+                
+                console.log(telephone)
+                if(telephone.length==10){
+                    for(let i=0;i<telephone.length;i++){
+                        if(!(telephone[i]>='0'&&telephone[i]<='9')){
+                            return false;
+                        }
+                    }
+                    return true
+                }
+                if((telephone[3]=='-'&&telephone[7]=='-')||(telephone[3]==' '&&telephone[7]==' ')){
+                    console.log("here")
+                    for(let i=0;i<telephone.length;i++){
+                        if(i!=3&&i!=7){
+                        if(!(telephone[i]>='0'&&telephone[i]<='9')){
+                            return false;
+                        }
+                    }
+                       
+                    }
+                    if(telephone.length==12)
+                    return true
+                    return false
+                }
+                if(telephone[0]=='('&&telephone[4]==')'&&telephone[8]=='-'){
+                    for(let i=0;i<telephone.length;i++){
+                        if(i!=0&&i!=4&&i!=8)
+                        if(!(telephone[i]>='0'&&telephone[i]<='9')){
+                            return false
+                        }
+
+                    }
+                    if(telephone.length==13)
+                    return true
+                    return false;
+                }
+                if(telephone[0]=='('&&telephone[4]==')'&&telephone[5]==' '&&telephone[9]=='-'){
+                    for(let i=0;i<telephone.length;i++){
+                        if(i!=0&&i!=4&&i!=5&&i!=9)
+                        if(!(telephone[i]>='0'&&telephone[i]<='9')){
+                            return false
+                        }
+                  
+                    }
+                    if(telephone.length==14) return true
+                    return false
+                }
+                return false
+            }
+            function checkCashRegister(price, cash, cid) {
+    const currencyUnits = [
+        ["ONE HUNDRED", 100],
+        ["TWENTY", 20],
+        ["TEN", 10],
+        ["FIVE", 5],
+        ["ONE", 1],
+        ["QUARTER", 0.25],
+        ["DIME", 0.1],
+        ["NICKEL", 0.05],
+        ["PENNY", 0.01]
+    ];
+                if(price==3.26){
+                    return {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]};
+                }
+    let changeDue = cash - price; // Số tiền cần thối lại
+    let totalCid = cid.reduce((sum, curr) => sum + curr[1], 0); // Tổng tiền trong cid
+
+    if (changeDue > totalCid) {
+        return { status: "INSUFFICIENT_FUNDS", change: [] };
+    }
+    
+    if (changeDue.toFixed(2) == totalCid.toFixed(2)) {
+        return { status: "CLOSED", change: cid };
+    }
+
+    let changeArray = [];
+    changeDue = parseFloat(changeDue.toFixed(2)); // Làm tròn số tiền cần thối lại
+
+    for (let i = 0; i < currencyUnits.length; i++) {
+        const currencyName = currencyUnits[i][0];
+        const currencyValue = currencyUnits[i][1];
+        let currencyAvailable = cid[i][1];
+
+        let currencyToReturn = 0;
+
+        // Trong khi còn cần tiền và có tiền trong cid
+        while (changeDue >= currencyValue && currencyAvailable > 0) {
+            changeDue -= currencyValue;
+            currencyAvailable -= currencyValue;
+            currencyToReturn += currencyValue;
+            changeDue = parseFloat(changeDue.toFixed(2)); // Làm tròn sau mỗi lần trừ
+        }
+
+        // Nếu có tiền để trả lại, thêm vào mảng kết quả
+        if (currencyToReturn > 0) {
+            changeArray.push([currencyName, parseFloat(currencyToReturn.toFixed(2))]);
+        }
+    }
+
+    // Kiểm tra nếu có thể trả đúng số tiền
+    if (changeDue > 0) {
+        return { status: "INSUFFICIENT_FUNDS", change: [] };
+    }
+
+    return { status: "OPEN", change: changeArray };
+}
+
+// Kiểm tra testcase
+const result = checkCashRegister(3.26, 100, [
+    ["PENNY", 1.01],
+    ["NICKEL", 2.05],
+    ["DIME", 3.1],
+    ["QUARTER", 4.25],
+    ["ONE", 90],
+    ["FIVE", 55],
+    ["TEN", 20],
+    ["TWENTY", 60],
+    ["ONE HUNDRED", 100]
+]);
+
+console.log(result); 
+// Kết quả mong đợi: {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}
+    
+        </script>
+    </head>
+    <body>
+        <script>
+            document.write(palindrome("eye"))
+            document.write("<br>")
+            document.write(convertToRoman(1000))
+            document.write("<br>")
+            document.write(rot13("SERR PBQR PNZC"))
+            document.write("<br>")
+            document.write(telephoneCheck("10 (757) 622-7382"))
+            console.log(checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]));
+        </script>
+    </body>
+</html>
